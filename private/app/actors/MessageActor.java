@@ -13,16 +13,17 @@ import java.util.UUID;
 
 public class MessageActor extends UntypedActor {
 
-    public MessageActor(ActorRef out) {
-        this.out = out;
-    }
-
+  
     public static Props props(ActorRef out){
         return Props.create(MessageActor.class, out);
     }
     private final ActorRef out;
     private FeedService feedService = new FeedService();
     private AgentService agentService = new AgentService();
+
+      public MessageActor(ActorRef out) {
+        this.out = out;
+    }
 
 
     public void onReceive(Object message) throws Exception {
@@ -34,7 +35,7 @@ public class MessageActor extends UntypedActor {
             out.tell(mapper.writeValueAsString(messageObject),
                     self());
             String keyword = agentService
-                    .getAgentResponse((String) message,UUID.randomUUID()).keyword;
+                    .getAgentResponse((String) message).keyword;
             if(!Objects.equals(keyword, "NOT_FOUND")){
                 FeedResponse feedResponse = feedService.getFeedResponse(keyword);
                 messageObject.text = (feedResponse.title == null) ? "No results found" : "Showing results for: " + keyword;
