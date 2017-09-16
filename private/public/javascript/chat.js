@@ -9,7 +9,7 @@ $scope.sendMessage = function ()
 
 
  $scope.trust = $sce.trustAsHtml;    
- var  exampleSocket =  new  WebSocket("ws://localhost:9000/chatSocket");  
+ var  exampleSocket =  new  WebSocket("wss://swiftcode-newsblog.herokuapp.com/chatSocket");  
  exampleSocket.onmessage  =   function  (event)
  {
      var jsonData = JSON.parse(event.data);        
